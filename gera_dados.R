@@ -2,7 +2,7 @@ library(tibble)
 
 #Gera base de dados binária pseudo-aleatória atribuindo-a 
 #para a variável "data".
-pgr_binaria = function(num = 1000, btreat = log(1), b0treat = -3.5){
+pgr_binaria = function(num = 1000, btreat = 0, b0treat = -3.5){
   
   #' @title PGR (Processo Gerador de Dados)
   #' @description Gera um conjunto de variáveis, efeitos e os vetores de 
