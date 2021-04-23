@@ -11,10 +11,10 @@ parea_simples = function(n, k, psmod, efeito, perc){
     dados = pgr_binaria(num = n, btreat = efeito, b0treat = perc)
     m.out = matchit(formula = as.formula(psmod), data = dados, 
                     method = "nearest", caliper = 0.2, std.caliper = TRUE)
-    res = lm(result ~ treat + x1 + x2 + x3 + x4 + x5 + x6 + x7 + x8 + x9,
+    res = glm(result ~ treat, family = binomial(link = "logit"),
               data = dados, weights = m.out$weights)
     valor = summary(res)$coefficients[2]
-    erro = summary(res)$coefficients[13]
+    erro = summary(res)$coefficients[3]
     
     #obter soma
     soma = soma + valor
@@ -38,5 +38,7 @@ parea_simples = function(n, k, psmod, efeito, perc){
   
 }
 
-parea_simples(n = 200, k = 500, psmod = "treat ~ x1 + x2 + x3 + x4 + x5 + x6", 
+parea_simples(n = 1000, k = 500, psmod = "treat ~ x1 + x2 + x3 + x4 + x5 + x6", 
               efeito = 0, perc = -3.5)
+confint(0, pgr_binaria())
+confint(pgr_binaria(), 0)
