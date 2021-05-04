@@ -1,77 +1,48 @@
-library(tibble)
-
-#Gera base de dados binária pseudo-aleatória atribuindo-a 
-#para a variável "data".
-pgr_binaria = function(num = 1000, btreat = 0, b0treat = -3.5){
-  
-  #' @title PGR (Processo Gerador de Dados)
-  #' @description Gera um conjunto de variáveis, efeitos e os vetores de 
-  #' tratamento e resultado.
-  #' @param num o valor que indicará o tamanho dos vetores, bem como dos laços.
-  #' @param btreat o valor que indicará o efeito real que futuramente será 
-  #' estimado - exp(btreat). Usar log(1), log(2), log(5) e log(10)
-  #' @param b0treat o valor de influência no número de tratados;
-  #' -3.5 implica em 50% T e 50% C;
-  #' Valores aproximados.
-  #' @return um data.frame com os dados gerados.
-    
-  #Criando variáveis explicativas
-  x1 = rbinom(num, 1, 0.5)
-  x2 = rbinom(num, 1, 0.5)
-  x3 = rbinom(num, 1, 0.5)
-  x4 = rbinom(num, 1, 0.5)
-  x5 = rbinom(num, 1, 0.5)
-  x6 = rbinom(num, 1, 0.5)
-  x7 = rbinom(num, 1, 0.5)
-  x8 = rbinom(num, 1, 0.5)
-  x9 = rbinom(num, 1, 0.5)
-  
-  #Gerando efeitos de resultado
-  b0out = -9.3
-  a1 = log(5)
-  a2 = log(5)
-  a3 = log(5)
-  a4 = log(2)
-  a5 = log(2)
-  a6 = log(2)
-  
-  #Gerando efeitos de tratamento
-  b1 = log(5)
-  b2 = log(2)
-  b3 = log(5)
-  b4 = log(2)
-  b5 = log(5)
-  b6 = log(2)
-    
-  #Criando vetores de tratamento e resultado
-  for(i in 0:num){
-    eta = b0treat + (b1*x1) + (b2*x2) + (b3*x4) + (b4*x5) + (b5*x7)
-    + (b6*x8)
-    
-    pt = exp(eta)/(1+exp(eta))
-    treat = rbinom(num, size = 1, prob = pt)
-  }
-  
-  for (i in 0:num){
-    eta1 = b0out + btreat*treat + (a1*x1) + (a2*x2) + (a3*x3)
-    + (a4*x4) + (a5*x5) + (a6*x6)
-    
-    po = exp(eta1)/(1 + exp(eta1))
-    result = rbinom(num, size = 1, prob = po)
-  }
-  
-  #Criando base de dados 
-  
-  data = data.frame(cbind(x1, x2, x3, x4, x5, x6, x7, x8, x9, treat, result))
-  data = as_tibble(data)
-  
-  return(data)
-  
+#Generatng data similar to Austin (2009) for demonstrating 
+#treatment effect estimation
+gen_X <- function(n) {
+  X <- matrix(rnorm(9 * n), nrow = n, ncol = 9)
+  X[,5] <- as.numeric(X[,5] < .5)
+  X
 }
 
-#somas =c()
-#for(i in 1:500){
-#  data = pgr_binaria()
-#  somas[i] = sum(data$treat==1)
-#}
-#mean(somas)
+#~20% treated
+gen_A <- function(X) {
+  LP_A <- - 1.2 + log(2)*X[,1] - log(1.5)*X[,2] + log(2)*X[,4] - log(2.4)*X[,5] + log(2)*X[,7] - log(1.5)*X[,8]
+  P_A <- plogis(LP_A)
+  rbinom(nrow(X), 1, P_A)
+}
+
+# Continuous outcome
+gen_Y_C <- function(A, X) {
+  2*A + 2*X[,1] + 2*X[,2] + 2*X[,3] + 1*X[,4] + 2*X[,5] + 1*X[,6] + rnorm(length(A), 0, 5)
+}
+#Conditional:
+#  MD: 2
+#Marginal:
+#  MD: 2
+
+# Binary outcome
+gen_Y_B <- function(A, X) {
+  LP_B <- -2 + log(2.4)*A + log(2)*X[,1] + log(2)*X[,2] + log(2)*X[,3] + log(1.5)*X[,4] + log(2.4)*X[,5] + log(1.5)*X[,6]
+  P_B <- plogis(LP_B)
+  rbinom(length(A), 1, P_B)
+}
+#Conditional:
+#  OR:   2.4
+#  logOR: .875
+#Marginal:
+#  RD:    .144
+#  RR:   1.54
+#  logRR: .433
+#  OR:   1.92
+#  logOR  .655
+
+#------------------------#
+#X = gen_X(n)
+#A = gen_A(X)
+
+#Y_C = gen_Y_C(A, X)
+#Y_B = gen_Y_B(A, X)
+
+#d = data.frame(A, X, Y_C, Y_B)
