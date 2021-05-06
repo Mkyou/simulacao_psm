@@ -1,9 +1,18 @@
 extrai_dados = function(lista, efeito){
-  ic = mean(ifelse(2 <= lista[[1]] + lista[[2]]*1.96 & 
-                     2>= lista[[1]] - lista[[2]]*1.96, 1, 0))
+  ic = mean(ifelse(efeito <= lista[[1]] + lista[[2]]*1.96 & 
+                     efeito>= lista[[1]] - lista[[2]]*1.96, 1, 0))
   media = mean(lista[[1]])
   vies_media = (media-efeito)/media
-  vies_quadrado = mean((2-lista[[1]])^2)
+  vies_quadrado = mean((efeito-lista[[1]])^2)
+  return(round(c(ic, media, vies_media, vies_quadrado),5))
+}
+
+extrai_dados.or = function(lista, efeito){
+  ic = mean(ifelse(efeito <= exp(lista[[1]] + lista[[2]]*1.96) & 
+                     efeito >= exp(lista[[1]] - lista[[2]]*1.96), 1, 0))
+  media = mean(exp(lista[[1]]))
+  vies_media = (media-efeito)/media
+  vies_quadrado = mean((efeito-exp(lista[[1]]))^2)
   return(round(c(ic, media, vies_media, vies_quadrado),5))
 }
 
@@ -30,3 +39,17 @@ tabela2 = gera_tabela(extrai_dados(a1, 2), extrai_dados(b1, 2),
 comment(tabela2) =
   "Resultados para pareamento NN, sem reposição, na estimativa
 do ATT para efeito contínuo, com ajuste por co-variável."
+
+tabela3 = gera_tabela(extrai_dados.or(a2, 1.92), extrai_dados.or(b2, 1.92),
+                      extrai_dados.or(c2, 1.92), extrai_dados.or(d2, 1.92))
+comment(tabela3) = 
+  "Resultados para pareamento NN, sem reposição, na estimativa
+do ATT para efeito binário marginal, sem ajuste por co-variável, 
+na escala do OR."
+
+tabela4 = gera_tabela(extrai_dados.or(a3, 1.54), extrai_dados.or(b3, 1.54),
+                      extrai_dados.or(c3, 1.54), extrai_dados.or(d3, 1.54))
+comment(tabela4) = 
+  "Resultados para pareamento NN, sem reposição, na estimativa
+do ATT para efeito binário marginal, sem ajuste por co-variável, 
+na escala do RR."
