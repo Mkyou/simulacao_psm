@@ -53,3 +53,9 @@ comment(tabela4) =
   "Resultados para pareamento NN, sem reposição, na estimativa
 do ATT para efeito binário marginal, sem ajuste por co-variável, 
 na escala do RR."
+
+tabela5 = gera_tabela(extrai_dados(a4, .144), extrai_dados(b4, .144), 
+                      extrai_dados(c4, .144), extrai_dados(d4, .144))
+comment(tabela5) =
+  "Resultados para pareamento NN, sem reposição, na estimativa
+do ATT para efeito binário, sem ajuste por co-variável, na escala do RD."
