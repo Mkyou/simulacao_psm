@@ -88,6 +88,7 @@ b1 = nn.sem_rep.c.a(n = 400)
 c1 = nn.sem_rep.c.a(n = 800)
 d1 = nn.sem_rep.c.a(n = 1500)
 
+##NN sem reposição com efeito binário na escala do OR sem ajuste.
 nn.sem_rep.b.or = function(k = 1000, n = 2000){
   estimativas = c()
   erros = c()
@@ -128,6 +129,7 @@ b2 = nn.sem_rep.b.or(n = 400)
 c2 = nn.sem_rep.b.or(n = 800)
 d2 = nn.sem_rep.b.or(n = 1500)
 
+##NN sem reposição com efeito binário na escala do RR sem ajuste.
 nn.sem_rep.b.rr = function(k = 1000, n = 2000){
   estimativas = c()
   erros = c()
@@ -167,6 +169,7 @@ b3 = nn.sem_rep.b.rr(n = 400)
 c3 = nn.sem_rep.b.rr(n = 800)
 d3 = nn.sem_rep.b.rr(n = 1500)
 
+##NN sem reposição com efeito binário na escala do RD sem ajuste.
 nn.sem_rep.b.rd = function(k = 1000, n = 2000){
   estimativas = c()
   erros = c()
