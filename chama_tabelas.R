@@ -63,3 +63,16 @@ tabela10 = gera_tabela(extrai_dados(a4, .144), extrai_dados(b4, .144),
 comment(tabela10) =
   "Resultados para pareamento NN, com reposição, na estimativa
 do ATT para efeito binário, sem ajuste por co-variável, na escala do RD."
+
+#-----------------------------------------------------------------------------#
+tabela11 = gera_tabela(extrai_dados(a, 2), extrai_dados(b, 2), 
+                      extrai_dados(c, 2), extrai_dados(d, 2))
+comment(tabela11) = 
+  "Resultados para Fullmatch, na estimativa
+do ATT para efeito contínuo, sem ajuste por co-variável."
+
+tabela12 = gera_tabela(extrai_dados(a1, 2), extrai_dados(b1, 2), 
+                      extrai_dados(c1, 2), extrai_dados(d1, 2))
+comment(tabela12) = 
+  "Resultados para Fullmatch, na estimativa
+do ATT para efeito contínuo, sem ajuste por co-variável."
