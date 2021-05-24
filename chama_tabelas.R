@@ -76,3 +76,17 @@ tabela12 = gera_tabela(extrai_dados(a1, 2), extrai_dados(b1, 2),
 comment(tabela12) = 
   "Resultados para Fullmatch, na estimativa
 do ATT para efeito contínuo, sem ajuste por co-variável."
+
+tabela13 = gera_tabela(extrai_dados.or(a2, 1.92), extrai_dados.or(b2, 1.92),
+                      extrai_dados.or(c2, 1.92), extrai_dados.or(d2, 1.92))
+comment(tabela13) = 
+  "Resultados para Fullmatch, na estimativa
+do ATT para efeito binário marginal, sem ajuste por co-variável, 
+na escala do OR."
+
+tabela14 = gera_tabela(extrai_dados.or(a3, 1.54), extrai_dados.or(b3, 1.54),
+                      extrai_dados.or(c3, 1.54), extrai_dados.or(d3, 1.54))
+comment(tabela14) = 
+  "Resultados para Fullmatch, na estimativa
+do ATT para efeito binário marginal, sem ajuste por co-variável, 
+na escala do RR."
