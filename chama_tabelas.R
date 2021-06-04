@@ -90,3 +90,11 @@ comment(tabela14) =
   "Resultados para Fullmatch, na estimativa
 do ATT para efeito binário marginal, sem ajuste por co-variável, 
 na escala do RR."
+
+
+tabela15 = gera_tabela(extrai_dados(a4, .144), extrai_dados(b4, .144), 
+                       extrai_dados(c4, .144), extrai_dados(d4, .144))
+comment(tabela15) =
+  "Resultados para Fullmatch, na estimativa
+do ATT para efeito binário marginal, sem ajuste por co-variável, na escala do RD."
+
